@@ -1,0 +1,16 @@
+name: tiffin-orders
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.2-management
+    environment:
+      RABBITMQ_DEFAULT_USER: tiffin
+      RABBITMQ_DEFAULT_PASS: tiffin
+    ports:
+      - "127.0.0.1:5672:5672"     # AMQP (0.9.1 now, 1.0 after the upgrade: same port on RabbitMQ 4.x)
+      - "127.0.0.1:15672:15672"   # Management UI: http://localhost:15672  (tiffin / tiffin)
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
